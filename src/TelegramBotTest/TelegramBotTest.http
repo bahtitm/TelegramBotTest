@@ -1,0 +1,6 @@
+@NodeJurnalTest_HostAddress = http://localhost:5148
+
+GET {{NodeJurnalTest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
