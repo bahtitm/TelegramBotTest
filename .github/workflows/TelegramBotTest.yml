@@ -1,0 +1,44 @@
+name: deploy
+on:
+  workflow_dispatch:  
+    inputs:
+        branch:
+           description: 'Branch'     
+           required: true
+           default: 'develop'  
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+     
+      - name: Build the Docker image
+        run: docker build . --file src/TelegramBotTest/Dockerfile --tag telegrambottest
+      - name: save
+        run: docker  save -o ./telegramBotTest.tar telegramtottest    
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.KEY }}
+          known_hosts: unnecessary
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -p ${{ secrets.SSH_PORT}} -H ${{ secrets.SSH_HOST }}  >> ~/.ssh/known_hosts  
+      
+      
+      - name: rsync image
+        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./telegramBotTest.tar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/TelegramBotTest/images
+      - name: deploy app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /home/TradingStaking/images
+            docker load -i telegramBotTest.tar
+            cd ..
+            ./stop
+            ./start  
