@@ -18,9 +18,9 @@ jobs:
         run: docker  save -o ./telegramBotTest.tar telegramtottest    
       - name: rsync image
         run: touch ~/.rsync.passwd |
-             echo password > ~/.rsync.passwd |
+             echo ${{ secrets.PASSWORD }} > ~/.rsync.passwd |
              chmod 0600 ~/.rsync.passwd |
-             rsync -var --password-file=~/.rsync.passwd admin@servername::/var/www/u2776593/data/telegramBotTest ./telegramBotTest.tar
+             rsync -var --password-file=~/.rsync.passwd ${{ secrets.USERNAME }}@${{ secrets.HOST }}::/var/www/u2776593/data/telegramBotTest ./telegramBotTest.tar
       - name: deploy app
         uses: appleboy/ssh-action@v1.0.3
         with:
