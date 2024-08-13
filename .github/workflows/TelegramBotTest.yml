@@ -15,7 +15,9 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file src/TelegramBotTest/Dockerfile --tag telegrambottest
       - name: save
-        run: docker  save -o ./telegramBotTest.tar telegrambottest     
+        run: docker  save -o ./telegramBotTest.tar telegrambottest 
+      - name: change permission
+        run: chmod 777 telegramBotTest.tar
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.7
         with:
