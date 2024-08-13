@@ -18,9 +18,15 @@ jobs:
         run: docker  save -o ./telegramBotTest.tar telegrambottest    
       - name: sshpass install
         run: sudo apt-get install sshpass -y
-      - name: move file
-        run: sshpass -p "31Gcvpd3ng3XYmVI" scp ./telegramBotTest.tar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/u2776593/data/telegramBotTest/
-      
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: ./telegramBotTest.tar
+          target: /var/www/u2776593/data/telegramBotTest
      
       - name: deploy app
         uses: appleboy/ssh-action@v1.0.3
