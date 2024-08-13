@@ -26,7 +26,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           source: telegramBotTest.tar
-          target: /var/www/u2776593/data/telegramBotTest
+          target: /var/www/u2776593/data/telegramBotTest/images
      
       - name: deploy app
         uses: appleboy/ssh-action@v1.0.3
@@ -36,4 +36,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            whoami
+            cd /var/www/u2776593/data/telegramBotTest/images
+            docker load -i telegramBotTest.tar
+            cd ..
+            ./stop
+            ./start 
