@@ -25,7 +25,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: ./telegramBotTest.tar
+          source: "telegramBotTest.tar"
           target: /var/www/u2776593/data/telegramBotTest
      
       - name: deploy app
