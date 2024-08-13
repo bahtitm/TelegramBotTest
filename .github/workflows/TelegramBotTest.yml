@@ -17,11 +17,14 @@ jobs:
       - name: save
         run: docker  save -o ./telegramBotTest.tar telegrambottest    
       - name: Run sshpass-scp commands
-      - name: rsync image
-        run: touch ~/.rsync.passwd |
-             echo ${{ secrets.PASSWORD }} > ~/.rsync.passwd |
-             chmod 0600 ~/.rsync.passwd |
-             rsync -var --password-file=~/.rsync.passwd ${{ secrets.USERNAME }}@${{ secrets.HOST }}::var/www/u2776593/data/telegramBotTest ./telegramBotTest.tar
+        uses: youxingz/sshpass-scp-action@v3
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USERNAME }}
+          pass: ${{ secrets.PASSWORD }}
+          port: 22
+          src: ./telegramBotTest.tar
+          dist: /var/www/u2776593/data/telegramBotTest
       
       
      
