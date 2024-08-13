@@ -19,7 +19,7 @@ jobs:
       - name: sshpass install
         run: sudo apt-get install sshpass -y
       - name: move file
-        run: sshpass -p ${{ secrets.PASSWORD }} scp ./telegramBotTest.tar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/u2776593/data/telegramBotTest/
+        run: sshpass -p "31Gcvpd3ng3XYmVI" scp ./telegramBotTest.tar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/u2776593/data/telegramBotTest/
       
      
       - name: deploy app
