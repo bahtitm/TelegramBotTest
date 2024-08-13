@@ -16,16 +16,10 @@ jobs:
         run: docker build . --file src/TelegramBotTest/Dockerfile --tag telegrambottest
       - name: save
         run: docker  save -o ./telegramBotTest.tar telegrambottest    
-      - name: Run sshpass-scp commands
-        uses: youxingz/sshpass-scp-action@v3
-        with:
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.USERNAME }}
-          pass: ${{ secrets.PASSWORD }}
-          port: 22
-          src: ./telegramBotTest.tar
-          dist: /var/www/u2776593/data/telegramBotTest
-      
+      - name: sshpass install
+        run: sudo apt-get install sshpass -y
+      - name: move file
+        run: sshpass -p ${{ secrets.PASSWORD }} scp ./telegramBotTest.tar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/u2776593/data/telegramBotTest/
       
      
       - name: deploy app
