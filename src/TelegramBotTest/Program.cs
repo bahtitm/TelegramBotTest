@@ -1,14 +1,15 @@
 using Application;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NodeJurnalTest.Data;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
-// Add services to the container.
-//builder.Services.Configure<KestrelServerOptions>(config.GetSection("Kestrel"));
+//Add services to the container.
+builder.Services.Configure<KestrelServerOptions>(config.GetSection("Kestrel"));
 
 
 
