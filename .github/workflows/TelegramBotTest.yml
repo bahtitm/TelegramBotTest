@@ -15,12 +15,19 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file src/TelegramBotTest/Dockerfile --tag telegrambottest
       - name: save
-        run: docker  save -o ./telegramBotTest.tar telegramtottest    
-      - name: rsync image
-        run: touch ~/.rsync.passwd |
-             echo ${{ secrets.PASSWORD }} > ~/.rsync.passwd |
-             chmod 0600 ~/.rsync.passwd |
-             rsync -var --password-file=~/.rsync.passwd ${{ secrets.USERNAME }}@${{ secrets.HOST }}::/var/www/u2776593/data/telegramBotTest ./telegramBotTest.tar
+        run: docker  save -o ./telegramBotTest.tar telegrambottest 
+      - name: change permission
+        run: chmod 777 telegramBotTest.tar
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: telegramBotTest.tar
+          target: /home/telegramBotTest/images
+     
       - name: deploy app
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -29,4 +36,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            whoami
+            cd /home/telegramBotTest/images
+            docker load -i telegramBotTest.tar
+            cd ..
+            ./stop
+            ./start 
