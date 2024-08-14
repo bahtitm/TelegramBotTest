@@ -26,7 +26,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           source: telegramBotTest.tar
-          target: /var/www/u2776593/data/telegramBotTest/images
+          target: /home/telegramBotTest/images
      
       - name: deploy app
         uses: appleboy/ssh-action@v1.0.3
