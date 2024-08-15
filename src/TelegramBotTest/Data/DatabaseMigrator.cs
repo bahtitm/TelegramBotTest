@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace NodeJurnalTest.Data
+namespace TelegramBotTest.Data
 {
     public class DatabaseMigrator
     {

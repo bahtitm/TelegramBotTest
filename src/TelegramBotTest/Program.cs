@@ -1,11 +1,15 @@
 using Application;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using NodeJurnalTest.Data;
 using System.Text;
+using TelegramBotTest.Data;
+using TelegramBotTest.Services;
+using TradingStaking.Services;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 //Add services to the container.
@@ -16,6 +20,7 @@ builder.Services.Configure<KestrelServerOptions>(config.GetSection("Kestrel"));
 builder.Services.AddApplicationCore();
 builder.Services.AddPersistence(config);
 builder.Services.AddScoped<DatabaseMigrator>();
+builder.Services.AddScoped<TelegramApiService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
