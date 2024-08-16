@@ -8,5 +8,6 @@ namespace TelegramBotTest.Controllers
     {
         protected IMediator mediator => HttpContext.RequestServices.GetService<IMediator>();
         protected TelegramApiService telegramApiService => HttpContext.RequestServices.GetService<TelegramApiService>();
+        protected ILogger logger => HttpContext.RequestServices.GetService<ILogger<BaseController>>();
     }
 }
