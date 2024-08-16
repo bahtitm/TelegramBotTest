@@ -41,44 +41,34 @@ namespace TelegramBotTest.Services
         }
 
 
-        //public async Task StopSelectedBotsAsync(IEnumerable<UIBotDto> bots, CancellationToken ct = default)
-        //{
-        //    var guids = bots.Select(p => p.Guid.ToString());
-        //    var botsForRequest = new
-        //    {
-        //        ids = guids,
-        //        closeOption = "SimpleStop",
-        //    };
-        //    RestResponse response = new();
+        public async Task SendMessageToBot(SendMessage sendMessage, CancellationToken ct = default)
+        {           
+            RestResponse response = new();
 
+            var json = JsonSerializer.Serialize(sendMessage);
+            var options = new RestClientOptions("https://95.216.29.24:443")
+            {
+                RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
+            };
+            var client = new RestClient(options);
+            var request = new RestRequest("https://api.telegram.org/bot6735323380:AAHKHtMIrJRCAI2ycWz_vifYTw139Alcim0/sendMessage");
+            request.Method = Method.Post;
+            request.AddHeader("Accept", "*/*");
+            request.AddHeader("Content-Type", "application/json");
+            
+            request.AddJsonBody(json);
+            try
+            {
 
-        //    var json = JsonSerializer.Serialize(botsForRequest);
-        //    var options = new RestClientOptions("https://95.216.29.24:443")
-        //    {
-        //        RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
-        //    };
-        //    var client = new RestClient(options);
-        //    var request = new RestRequest("/api/v1/aevo/bots/StopMultipleBots");
-        //    request.Method = Method.Put;
-        //    request.AddHeader("Accept", "*/*");
-        //    request.AddHeader("Content-Type", "application/json");
-        //    request.AddHeader("token", "ZgrdVfwUpkqXh6Cu8v4tLGJ7nNjc5MFy");
-        //    request.AddJsonBody(json);
-        //    try
-        //    {
+                response = await client.ExecuteAsync(request);            
 
-        //        response = await client.ExecuteAsync(request);
-        //        _ = jSRuntime.InvokeVoidAsync("console.log", "StopSelectedBots ExecuteAsync:" + response.Content + response.ErrorMessage + response.ErrorException);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
 
-
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw;
-        //    }
-
-        //}
+        }
 
     }
 }
