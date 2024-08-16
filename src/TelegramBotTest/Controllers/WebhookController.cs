@@ -13,6 +13,7 @@ namespace TelegramBotTest.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Update update)
         {
+            logger.LogCritical("ok");
             var json = JsonSerializer.Serialize(update);
             logger.LogCritical(json);
             return NoContent();
