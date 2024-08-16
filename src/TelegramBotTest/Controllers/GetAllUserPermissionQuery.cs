@@ -1,4 +1,4 @@
-﻿namespace NodeJurnalTest.Controllers
+﻿namespace TelegramBotTest.Controllers
 {
     public class GetAllUserPermissionQuery
     {

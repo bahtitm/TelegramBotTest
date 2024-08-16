@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TradingStaking.Services;
+using TelegramBotTest.Services;
 
-namespace NodeJurnalTest.Controllers
+namespace TelegramBotTest.Controllers
 {
     public class BaseController : ControllerBase
     {
         protected IMediator mediator => HttpContext.RequestServices.GetService<IMediator>();
-        protected TelegramApiService telegramApiService=> HttpContext.RequestServices.GetService<TelegramApiService>();
+        protected TelegramApiService telegramApiService => HttpContext.RequestServices.GetService<TelegramApiService>();
     }
 }

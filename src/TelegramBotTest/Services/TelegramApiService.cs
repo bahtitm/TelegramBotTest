@@ -2,27 +2,26 @@
 using RestSharp;
 using System.Globalization;
 using System.Text.Json;
-using TelegramBotTest.Services;
 
-namespace TradingStaking.Services
+namespace TelegramBotTest.Services
 {
-   
+
     public class TelegramApiService
     {
-        
-       
+
+
         HttpClient httpClient = null!;
 
         public TelegramApiService()
         {
-            
-            
+
+
             httpClient = new HttpClient();
         }
         public async Task<IEnumerable<Update>> GetBotUpdateAsync(CancellationToken ct = default)
         {
             var DataSource = new List<Update>();
-           
+
             try
             {
                 var userAddress = "";
@@ -40,7 +39,7 @@ namespace TradingStaking.Services
 
             return DataSource;
         }
-       
+
 
         //public async Task StopSelectedBotsAsync(IEnumerable<UIBotDto> bots, CancellationToken ct = default)
         //{
@@ -80,6 +79,6 @@ namespace TradingStaking.Services
         //    }
 
         //}
-      
+
     }
 }
