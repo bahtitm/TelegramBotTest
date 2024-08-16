@@ -8,5 +8,6 @@
         public string? MiddleName { get; set; }
         public string? Phone { get; set; }
         public string? Pasword { get; set; }
+        public virtual IEnumerable<Subscription>? Subscriptions { get; set; }
     }
 }
