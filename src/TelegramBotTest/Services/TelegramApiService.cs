@@ -41,7 +41,7 @@ namespace TelegramBotTest.Services
         }
 
 
-        public async Task SendMessageToBot(SendMessage sendMessage, CancellationToken ct = default)
+        public async Task SendMessageToBot(MessageForSend sendMessage, CancellationToken ct = default)
         {           
             RestResponse response = new();
 

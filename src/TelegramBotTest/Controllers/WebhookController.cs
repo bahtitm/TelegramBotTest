@@ -13,6 +13,30 @@ namespace TelegramBotTest.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Update update)
         {
+            var inlineKeyboards = new List<List<InlineKeyboard>>
+            {
+                new List<InlineKeyboard>{
+                    new InlineKeyboard { Text = "Services" },
+                    new InlineKeyboard { Text = "Personal account" }
+                }
+            };
+           
+            
+
+            if (update.Message.Text == "/start")
+            {
+                var message = new MessageForSend
+                    { ChatId=update.Message.Chat.Id,
+                     Text = "Menyu",
+                      ReplyMarkup=new ReplyMarkup 
+                      {
+                           InlineKeyboard= inlineKeyboards
+
+                      },
+                     
+                };
+                await telegramApiService.SendMessageToBot(message);
+            }
             logger.LogCritical("ok");
             var json = JsonSerializer.Serialize(update);
             logger.LogCritical(json);

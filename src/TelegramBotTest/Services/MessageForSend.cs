@@ -2,7 +2,7 @@
 
 namespace TelegramBotTest.Services
 {
-    public class SendMessage
+    public class MessageForSend
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("chat_id")]
@@ -25,6 +25,10 @@ namespace TelegramBotTest.Services
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("remove_keyboard")]
         public bool? RemoveKeyboard { get; set; }=false;
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("inline_keyboard")]
+        public List<List<InlineKeyboard>>? InlineKeyboard { get; set; }
     }
 
     public class Keyboard
@@ -32,5 +36,15 @@ namespace TelegramBotTest.Services
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("text")]
         public string? Text { get; set; }
+    }
+    public partial class InlineKeyboard
+    {
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("text")]
+        public string? Text { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("callback_data")]
+        public string? CallbackData { get; set; }
     }
 }
