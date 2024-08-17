@@ -16,8 +16,8 @@ namespace TelegramBotTest.Controllers
             var inlineKeyboards = new List<List<InlineKeyboard>>
             {
                 new List<InlineKeyboard>{
-                    new InlineKeyboard { Text = "Services" },
-                    new InlineKeyboard { Text = "Personal account" }
+                    new InlineKeyboard { Text = "Services", CallbackData="1" },
+                    new InlineKeyboard { Text = "Personal account", CallbackData = "2" }
                 }
             };
            
@@ -30,7 +30,9 @@ namespace TelegramBotTest.Controllers
                      Text = "Menyu",
                       ReplyMarkup=new ReplyMarkup 
                       {
-                           InlineKeyboard= inlineKeyboards
+                           InlineKeyboard= inlineKeyboards,
+                           
+                             
 
                       },
                      
