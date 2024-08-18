@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Features.Subscriptions.Queries.GetAll;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text.Json;
 using TelegramBotTest.Services;
@@ -20,7 +21,43 @@ namespace TelegramBotTest.Controllers
             logger.LogCritical(json);
             if (update.CallbackQuery is not null)
             {
-                return Redirect(update?.CallbackQuery?.Data ?? "/");
+                ///return Redirect(update?.CallbackQuery?.Data ?? "/");
+
+                var dataSource = await mediator.Send(new GetAllSubscriptionQuery());
+                var inlineKeyboards = new List<List<InlineKeyboard>>();
+                foreach (var item in dataSource)
+                {
+                    var t = new List<InlineKeyboard>() { new InlineKeyboard { Text = item.Name, CallbackData = "1" } };
+                    inlineKeyboards.Add(t);
+                }
+                var backButton = new List<InlineKeyboard>() { new InlineKeyboard { Text = "Назад", CallbackData = "1" } };
+                inlineKeyboards.Add(backButton);
+
+
+
+
+                var message = new MessageForSend
+                {
+                    ChatId = update.Message.Chat.Id,
+                    Text = "Services",
+                    ReplyMarkup = new ReplyMarkup
+                    {
+                        InlineKeyboard = inlineKeyboards,
+                    },
+
+                };
+                
+                try
+                {
+
+                    await telegramApiService.SendMessageToBot(message);
+                }
+                catch (Exception e)
+                {
+
+                    logger.LogCritical(e.Message);
+
+                }
 
             }
 
