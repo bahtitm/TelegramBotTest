@@ -28,16 +28,17 @@ namespace TelegramBotTest.Controllers
                 try
                 {
                     var t = Redirect($"https://89.111.173.247/api/Subscriptions/forTelegram/{update?.CallbackQuery?.Data}");
+                    return t;
                 }
-                catch (Exception t)
+                catch (Exception e)
                 {
 
                     logger.LogCritical("MessageCLErr");
-                    logger.LogCritical(t.Message);
+                    logger.LogCritical(e.Message);
                 }
                
                 
-                return t;
+                
 
 
 
