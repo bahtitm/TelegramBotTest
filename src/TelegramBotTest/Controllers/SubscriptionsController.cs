@@ -4,7 +4,9 @@ using Application.Features.Subscriptions.Commands.UpdateSubscription;
 using Application.Features.Subscriptions.Queries.GetAll;
 using Application.Features.Subscriptions.Queries.GetDetail;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using TelegramBotTest.Services;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TelegramBotTest.Controllers
 {
@@ -22,7 +24,7 @@ namespace TelegramBotTest.Controllers
         [HttpGet("forTelegram/{chartId}")]
         public async Task GetforTelegram(long chartId)
         {
-
+            logger.LogCritical($"forTelegram/{chartId}");
             var dataSource = await mediator.Send(new GetAllSubscriptionQuery());
 
             var inlineKeyboards = new List<List<InlineKeyboard>>();
@@ -44,16 +46,25 @@ namespace TelegramBotTest.Controllers
                     ReplyMarkup = new ReplyMarkup
                     {
                         InlineKeyboard = inlineKeyboards,
-
-
-
                     },
 
                 };
-               await telegramApiService.SendMessageToBot(message);
-           
+            var json = JsonSerializer.Serialize(message);
+            logger.LogCritical(json);
+            try
+            {
 
-            
+            await telegramApiService.SendMessageToBot(message);
+            }
+            catch (Exception e)
+            {
+
+            logger.LogCritical(e.Message);
+
+            }
+
+
+
         }
 
         [HttpGet("{id}")]
