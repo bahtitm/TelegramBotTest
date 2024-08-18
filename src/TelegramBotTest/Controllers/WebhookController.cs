@@ -13,29 +13,27 @@ namespace TelegramBotTest.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Update update)
         {
-            var inlineKeyboards = new List<List<InlineKeyboard>>
-            {
-                new List<InlineKeyboard>{
-                    new InlineKeyboard { Text = "Services", CallbackData="1" },
-                    new InlineKeyboard { Text = "Personal account", CallbackData = "2" }
-                }
-            };
-           
-            
-
             if (update?.Message?.Text == "/start")
             {
+                var inlineKeyboards = new List<List<InlineKeyboard>>
+                    {
+                        new List<InlineKeyboard>{
+                            new InlineKeyboard { Text = "Services", CallbackData=$"https://89.111.173.247/api/Subscriptions/forTelegram/{update.Message.Chat.Id}" },
+                            new InlineKeyboard { Text = "Personal account", CallbackData = "2" }
+                        }
+                    };
                 var message = new MessageForSend
-                    { ChatId=update.Message.Chat.Id,
-                     Text = "Menyu",
-                      ReplyMarkup=new ReplyMarkup 
-                      {
-                           InlineKeyboard= inlineKeyboards,
-                           
-                             
+                {
+                    ChatId = update.Message.Chat.Id,
+                    Text = "Menyu",
+                    ReplyMarkup = new ReplyMarkup
+                    {
+                        InlineKeyboard = inlineKeyboards,
 
-                      },
-                     
+
+
+                    },
+
                 };
                 await telegramApiService.SendMessageToBot(message);
             }

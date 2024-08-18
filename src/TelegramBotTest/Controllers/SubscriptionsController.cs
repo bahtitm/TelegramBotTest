@@ -3,12 +3,8 @@ using Application.Features.Subscriptions.Commands.DeleteSubscription;
 using Application.Features.Subscriptions.Commands.UpdateSubscription;
 using Application.Features.Subscriptions.Queries.GetAll;
 using Application.Features.Subscriptions.Queries.GetDetail;
-using Application.Features.Users.Commands.CreateUser;
-using Application.Features.Users.Commands.DeleteUser;
-using Application.Features.Users.Commands.UpdateUser;
-using Application.Features.Users.Queries.GetAll;
-using Application.Features.Users.Queries.GetDetail;
 using Microsoft.AspNetCore.Mvc;
+using TelegramBotTest.Services;
 
 namespace TelegramBotTest.Controllers
 {
@@ -22,6 +18,42 @@ namespace TelegramBotTest.Controllers
         {
             var dataSource = await mediator.Send(new GetAllSubscriptionQuery());
             return Ok(dataSource.AsQueryable());
+        }
+        [HttpGet("forTelegram/{chartId}")]
+        public async Task GetforTelegram(long chartId)
+        {
+
+            var dataSource = await mediator.Send(new GetAllSubscriptionQuery());
+
+            var inlineKeyboards = new List<List<InlineKeyboard>>();
+            foreach (var item in dataSource)
+            {
+                var t = new List<InlineKeyboard>() { new InlineKeyboard { Text = item.Name, CallbackData = "1" } };
+                inlineKeyboards.Add(t);
+            }
+            var backButton = new List<InlineKeyboard>() { new InlineKeyboard { Text = "Назад", CallbackData = "1" } };
+            inlineKeyboards.Add(backButton);
+           
+
+
+           
+                var message = new MessageForSend
+                {
+                    ChatId = chartId,
+                    Text = "Services",
+                    ReplyMarkup = new ReplyMarkup
+                    {
+                        InlineKeyboard = inlineKeyboards,
+
+
+
+                    },
+
+                };
+               await telegramApiService.SendMessageToBot(message);
+           
+
+            
         }
 
         [HttpGet("{id}")]
