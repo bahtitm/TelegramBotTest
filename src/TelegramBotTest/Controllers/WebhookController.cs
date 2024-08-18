@@ -1,6 +1,5 @@
 ﻿using Application.Features.Subscriptions.Queries.GetAll;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text.Json;
 using TelegramBotTest.Services;
 
@@ -22,30 +21,21 @@ namespace TelegramBotTest.Controllers
             logger.LogCritical(json);
             if (update.CallbackQuery is not null)
             {
-                logger.LogCritical("MessageCL");                
-                logger.LogCritical($"https://89.111.173.247/api/Subscriptions/forTelegram/{update?.CallbackQuery?.Data}");
 
-                try
-                {
-                    return Redirect($"/api/Subscriptions/forTelegram/{update?.CallbackQuery?.Data}");
-                    
-                }
-                catch (Exception e)
-                {
-
-                    logger.LogCritical("MessageCLErr");
-                    logger.LogCritical(e.Message);
-                }
-               
-                
-                
-
-
-
-
+                await SendServicesButtons(update);
             }
 
+            await SendMenyuButtons(update);
 
+
+
+
+            return NoContent();
+        }
+
+
+        async Task SendMenyuButtons(Update update)
+        {
             if (update?.Message?.Text == "/start")
             {
                 var inlineKeyboards = new List<List<InlineKeyboard>>
@@ -73,11 +63,8 @@ namespace TelegramBotTest.Controllers
                 var messageJson = JsonSerializer.Serialize(message);
                 logger.LogCritical(messageJson);
             }
-            
-            
-            return NoContent();
-        }
 
+        }
         async Task SendServicesButtons(Update update)
         {
             var dataSource = await mediator.Send(new GetAllSubscriptionQuery());
@@ -108,9 +95,7 @@ namespace TelegramBotTest.Controllers
             {
 
                 await telegramApiService.SendMessageToBot(message1);
-                logger.LogCritical("MessageCL");
-                var messageJsonCL = JsonSerializer.Serialize(message1);
-                logger.LogCritical(messageJsonCL);
+
             }
             catch (Exception e)
             {
