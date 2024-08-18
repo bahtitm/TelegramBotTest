@@ -27,8 +27,8 @@ namespace TelegramBotTest.Controllers
 
                 try
                 {
-                    var t = Redirect($"https://89.111.173.247/api/Subscriptions/forTelegram/{update?.CallbackQuery?.Data}");
-                    return t;
+                    return Redirect($"/api/Subscriptions/forTelegram/{update?.CallbackQuery?.Data}");
+                    
                 }
                 catch (Exception e)
                 {
