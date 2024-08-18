@@ -51,7 +51,7 @@ namespace TelegramBotTest.Controllers
 
 
 
-        [HttpGet("/api/Subscriptions/forTelegram/{chartId}")]
+        [HttpGet("api/Subscriptions/forTelegram/{chartId}")]
         public async Task GetforTelegram(long chartId)
         {
             logger.LogCritical($"forTelegram/{chartId}");
