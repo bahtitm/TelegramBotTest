@@ -38,6 +38,10 @@ namespace TelegramBotTest.Services
         [JsonPropertyName("from")]
         public User? From { get; set; }
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("data")]
+        public string? Data { get; set; }
+
 
     }
 
