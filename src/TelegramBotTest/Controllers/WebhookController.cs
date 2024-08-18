@@ -24,7 +24,20 @@ namespace TelegramBotTest.Controllers
             {
                 logger.LogCritical("MessageCL");                
                 logger.LogCritical($"https://89.111.173.247/api/Subscriptions/forTelegram/{update?.CallbackQuery?.Data}");
-                return Redirect($"https://89.111.173.247/api/Subscriptions/forTelegram/{update?.CallbackQuery?.Data}");
+
+                try
+                {
+                    var t = Redirect($"https://89.111.173.247/api/Subscriptions/forTelegram/{update?.CallbackQuery?.Data}");
+                }
+                catch (Exception t)
+                {
+
+                    logger.LogCritical("MessageCLErr");
+                    logger.LogCritical(t.Message);
+                }
+               
+                
+                return t;
 
 
 
