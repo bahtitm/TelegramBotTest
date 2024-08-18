@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text.Json;
 using TelegramBotTest.Services;
 
@@ -13,12 +14,21 @@ namespace TelegramBotTest.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Update update)
         {
+
+
+            if (update.CallbackQuery is not null)
+            {
+                return Redirect($"{update.CallbackQuery.Data}");
+
+            }
+
+
             if (update?.Message?.Text == "/start")
             {
                 var inlineKeyboards = new List<List<InlineKeyboard>>
                     {
                         new List<InlineKeyboard>{
-                            new InlineKeyboard { Text = "Services", CallbackData=$"/api/Subscriptions/forTelegram/{update.Message.Chat.Id}" },
+                            new InlineKeyboard { Text = "Services", CallbackData=$"~/api/Subscriptions/forTelegram/{update.Message.Chat.Id}" },
                             new InlineKeyboard { Text = "Personal account", CallbackData = "2" }
                         }
                     };
