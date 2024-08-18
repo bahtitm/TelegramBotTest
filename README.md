@@ -1,4 +1,4 @@
-# NodeJurnalTest
+# TelegramBotTest
 
 предварительно нужно установить docker , docker compose
 
