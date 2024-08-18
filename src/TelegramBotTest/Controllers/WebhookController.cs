@@ -15,7 +15,9 @@ namespace TelegramBotTest.Controllers
         public async Task<IActionResult> Post([FromBody] Update update)
         {
 
-
+            logger.LogCritical("update");
+            var json = JsonSerializer.Serialize(update);
+            logger.LogCritical(json);
             if (update.CallbackQuery is not null)
             {
                 return Redirect($"{update.CallbackQuery.Data}");
@@ -50,9 +52,7 @@ namespace TelegramBotTest.Controllers
                 var messageJson = JsonSerializer.Serialize(message);
                 logger.LogCritical(messageJson);
             }
-            logger.LogCritical("update");
-            var json = JsonSerializer.Serialize(update);
-            logger.LogCritical(json);
+            
             
             return NoContent();
         }
