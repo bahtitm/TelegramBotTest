@@ -1,8 +1,30 @@
-version: '3.4'
+
 
 services:
-  telegrambottest:
-    image: ${DOCKER_REGISTRY-}telegrambottest
-    build:
-      context: .
-      dockerfile: src/TelegramBotTest/Dockerfile
+  fundadminpanel:
+    container_name: telegramBotTest
+    image: telegrambottest:latest
+    restart: always
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=${POSTGRES_HOST};Port=${POSTGRES_PORT};Database=${POSTGRES_DB};User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - ASPNETCORE_ENVIRONMENT=Production  
+      
+      - ASPNETCORE_URLS=https://+:8081;http://+:8080
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=telegrambot
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/telegrambot.pfx
+      - WAIT_HOSTS=${APP_WAIT_HOSTS}
+      - Organization__Name=telegrambottest
+    ports:
+      - 443:8081
+      - 80:8080
+    networks:
+      - telegrambottest-network
+    volumes:
+      
+      - ./certs:/https:ro
+       
+networks:
+  telegrambottest-network:
+    driver: bridge
+volumes:
+  telegrambottest-data:
