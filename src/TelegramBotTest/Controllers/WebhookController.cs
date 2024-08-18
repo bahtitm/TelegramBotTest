@@ -36,7 +36,7 @@ namespace TelegramBotTest.Controllers
 
 
 
-                var message = new MessageForSend
+                var message1 = new MessageForSend
                 {
                     ChatId = update.Message.Chat.Id,
                     Text = "Services",
@@ -50,7 +50,10 @@ namespace TelegramBotTest.Controllers
                 try
                 {
 
-                    await telegramApiService.SendMessageToBot(message);
+                    await telegramApiService.SendMessageToBot(message1);
+                    logger.LogCritical("MessageCL");
+                    var messageJsonCL = JsonSerializer.Serialize(message1);
+                    logger.LogCritical(messageJsonCL);
                 }
                 catch (Exception e)
                 {
