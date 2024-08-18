@@ -22,6 +22,23 @@ namespace TelegramBotTest.Services
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("message")]
         public Message? Message { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("callback_query")]
+
+        public CallbackQuery? CallbackQuery { get; set; }
+    }
+    public class CallbackQuery 
+    {
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("from")]
+        public User? From { get; set; }
+
+
     }
 
     public class Message
