@@ -46,5 +46,10 @@ namespace TelegramBotTest.Services
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("callback_data")]
         public string? CallbackData { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("url")]
+
+        public string? Url { get; set; }
     }
 }
