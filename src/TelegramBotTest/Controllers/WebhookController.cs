@@ -19,7 +19,7 @@ namespace TelegramBotTest.Controllers
             logger.LogCritical("update");
             var json = JsonSerializer.Serialize(update);
             logger.LogCritical(json);
-            if (update.CallbackQuery is not null)
+            if (update.CallbackQuery is not null && update?.Message?.Chat is not null)
             {
                 ///return Redirect(update?.CallbackQuery?.Data ?? "/");
 
