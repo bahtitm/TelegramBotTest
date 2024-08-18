@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text.Json;
 using TelegramBotTest.Services;
 
+
 namespace TelegramBotTest.Controllers
 {
     [Route("api/[controller]")]
@@ -19,48 +20,14 @@ namespace TelegramBotTest.Controllers
             logger.LogCritical("update");
             var json = JsonSerializer.Serialize(update);
             logger.LogCritical(json);
-            if (update.CallbackQuery is not null && update?.Message?.Chat is not null)
+            if (update.CallbackQuery is not null)
             {
-                ///return Redirect(update?.CallbackQuery?.Data ?? "/");
-
-                var dataSource = await mediator.Send(new GetAllSubscriptionQuery());
-                var inlineKeyboards = new List<List<InlineKeyboard>>();
-                foreach (var item in dataSource)
-                {
-                    var t = new List<InlineKeyboard>() { new InlineKeyboard { Text = item.Name, CallbackData = "1" } };
-                    inlineKeyboards.Add(t);
-                }
-                var backButton = new List<InlineKeyboard>() { new InlineKeyboard { Text = "Назад", CallbackData = "1" } };
-                inlineKeyboards.Add(backButton);
+                logger.LogCritical("MessageCL");                
+                logger.LogCritical($"https://89.111.173.247/api/Subscriptions/forTelegram/{update?.CallbackQuery?.Data}");
+                return Redirect($"https://89.111.173.247/api/Subscriptions/forTelegram/{update?.CallbackQuery?.Data}");
 
 
 
-
-                var message1 = new MessageForSend
-                {
-                    ChatId = update.Message.Chat.Id,
-                    Text = "Services",
-                    ReplyMarkup = new ReplyMarkup
-                    {
-                        InlineKeyboard = inlineKeyboards,
-                    },
-
-                };
-                
-                try
-                {
-
-                    await telegramApiService.SendMessageToBot(message1);
-                    logger.LogCritical("MessageCL");
-                    var messageJsonCL = JsonSerializer.Serialize(message1);
-                    logger.LogCritical(messageJsonCL);
-                }
-                catch (Exception e)
-                {
-
-                    logger.LogCritical(e.Message);
-
-                }
 
             }
 
@@ -70,7 +37,7 @@ namespace TelegramBotTest.Controllers
                 var inlineKeyboards = new List<List<InlineKeyboard>>
                     {
                         new List<InlineKeyboard>{
-                            new InlineKeyboard { Text = "Services", CallbackData=$"/api/Subscriptions/forTelegram/{update.Message.Chat.Id}" },
+                            new InlineKeyboard { Text = "Services", CallbackData=$"{update.Message.Chat.Id}" },
                             new InlineKeyboard { Text = "Personal account", CallbackData = "2" }
                         }
                     };
@@ -97,6 +64,47 @@ namespace TelegramBotTest.Controllers
             return NoContent();
         }
 
+        async Task SendServicesButtons(Update update)
+        {
+            var dataSource = await mediator.Send(new GetAllSubscriptionQuery());
+            var inlineKeyboards = new List<List<InlineKeyboard>>();
+            foreach (var item in dataSource)
+            {
+                var t = new List<InlineKeyboard>() { new InlineKeyboard { Text = item.Name, CallbackData = "1" } };
+                inlineKeyboards.Add(t);
+            }
+            var backButton = new List<InlineKeyboard>() { new InlineKeyboard { Text = "Назад", CallbackData = "1" } };
+            inlineKeyboards.Add(backButton);
+
+
+            var id = long.Parse(update.CallbackQuery.Data);
+
+            var message1 = new MessageForSend
+            {
+                ChatId = id,
+                Text = "Services",
+                ReplyMarkup = new ReplyMarkup
+                {
+                    InlineKeyboard = inlineKeyboards,
+                },
+
+            };
+
+            try
+            {
+
+                await telegramApiService.SendMessageToBot(message1);
+                logger.LogCritical("MessageCL");
+                var messageJsonCL = JsonSerializer.Serialize(message1);
+                logger.LogCritical(messageJsonCL);
+            }
+            catch (Exception e)
+            {
+
+                logger.LogCritical(e.Message);
+
+            }
+        }
 
     }
 }
