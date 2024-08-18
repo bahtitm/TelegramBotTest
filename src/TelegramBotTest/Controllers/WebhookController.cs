@@ -30,7 +30,7 @@ namespace TelegramBotTest.Controllers
                 var inlineKeyboards = new List<List<InlineKeyboard>>
                     {
                         new List<InlineKeyboard>{
-                            new InlineKeyboard { Text = "Services", CallbackData=$"https://89.111.173.247/api/Subscriptions/forTelegram/{update.Message.Chat.Id}" },
+                            new InlineKeyboard { Text = "Services", CallbackData=$"/api/Subscriptions/forTelegram/{update.Message.Chat.Id}" },
                             new InlineKeyboard { Text = "Personal account", CallbackData = "2" }
                         }
                     };
