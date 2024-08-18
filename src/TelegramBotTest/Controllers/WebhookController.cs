@@ -36,10 +36,14 @@ namespace TelegramBotTest.Controllers
 
                 };
                 await telegramApiService.SendMessageToBot(message);
+                logger.LogCritical("Message");
+                var messageJson = JsonSerializer.Serialize(message);
+                logger.LogCritical(messageJson);
             }
-            logger.LogCritical("ok");
+            logger.LogCritical("update");
             var json = JsonSerializer.Serialize(update);
             logger.LogCritical(json);
+            
             return NoContent();
         }
 
