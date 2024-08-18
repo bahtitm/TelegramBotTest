@@ -23,7 +23,7 @@ namespace TelegramBotTest.Controllers
            
             
 
-            if (update.Message.Text == "/start")
+            if (update?.Message?.Text == "/start")
             {
                 var message = new MessageForSend
                     { ChatId=update.Message.Chat.Id,
